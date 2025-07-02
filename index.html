@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            box-sizing: border-box;
+        }
+        .main{
+            background-color: 	#2790ff;
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            border-radius: 10px;
+        }
+        label{
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        select{
+            border-style: none;
+            border-radius: 10px;
+        }
+        #book{
+            width: 95%;
+            text-align: center;
+            margin-bottom: 25px;
+            height: 30px;
+        }
+        #foog{
+            width: 95%;
+            text-align: center;
+            margin-bottom: 25px;
+            height: 30px;
+        }
+        #meal{
+            width: 95%;
+            text-align: center;
+            margin-bottom: 25px;
+            height: 30px;
+        }
+        #childmeal{
+            width: 95%;
+            text-align: center;
+            margin-bottom: 25px;
+            height: 30px;
+        }
+        #transport{
+            width: 95%;
+            text-align: center;
+            margin-bottom: 25px;
+            height: 30px;
+        }
+        #type{
+            width: 95%;
+            text-align: center;
+            margin-bottom: 25px;
+            height: 30px;
+        }
+        .result{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 50%;
+            text-align: center;
+            border-style: solid;
+            border-color: rgb(255, 255, 255);
+            height: 50px;
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+        }
+        option{
+            font-size: 15px;
+            font-weight: bold;
+        }
+        #calculate {
+            width: 40%;
+            background-color: #007BFF;         /* Bootstrap Blue */
+            color: #ffffff;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 123, 255, 0.2);
+        }
+
+        #calculate:hover {
+            background-color: #ffffff;
+            color: #007BFF;
+            box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+            border: 1px solid #007BFF;
+        }
+
+        .belowbox{
+            padding: 0 10px;
+            width: 95%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <label for="book">نوع الحجز</label>
+        <select name="book" id="book">
+            <option value="" disabled selected hidden>اختر نوع الحجز</option>
+            <option value="1">العاملين و أبنائهم</option>
+            <option value="2">المرافقين و الضيافات</option>
+        </select>
+        <label for="foog">الفوج</label>
+        <select name="foog" id="foog">
+            <option value="" disabled selected hidden>اختر الفوج</option>
+            <option value="1">الفزج الاول و الثاني</option>
+            <option value="2">من الفوج الثالث الي السابع عشر</option>
+            <option value="3"> الفوج الثامن عشر و التاسع عشر</option>
+        </select>
+        <label for="meal">عدد الوجبات</label>
+        <select name="meal" id="meal">
+            <option value="" disabled selected hidden>اختر عدد الوجبات</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+        </select>
+        <label for="childmeal">عدد وجبات الأطفال اذا وجد</label>
+        <select name="childmeal" id="childmeal">
+            <option value="0" selected>لا يوجد</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+        </select>
+        <label for="transport">عدد الأفراد في المواصلات</label>
+        <select name="transport" id="transport">
+            <option value="" disabled selected hidden>اختر عدد الافراد</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+        </select>
+        <label for="type">المبني</label>
+        <select name="type" id="type">
+            <option value="" disabled selected hidden>اختر المبني</option>
+            <option value="1">النرجس</option>
+            <option value="2">النورس</option>
+            <option value="3">اللؤلؤة</option>
+            <option value="4">الكروان</option>
+            <option value="5">الياسمين</option>
+            <option value="6">أصيله</option>
+        </select>
+        <div class="belowbox">
+            <button id="calculate">التكلفة</button>
+            <div class="result"></div>
+        </div>
+        
+        
+    </div>
+    <script>
+        const result = document.querySelector(".result");
+        //calculate button
+        const calc = document.querySelector("#calculate");
+        //shaleh[foog][booking][type] => return the shaleh price
+        const shaleh = {
+            //foog 1,2
+            1:{
+                1:{1:1040,2:1220,3:2075,4:1220,5:1040,6:1040},
+                2:{1:1425,2:1660,3:2375,4:1660,5:1425,6:1425}
+            },
+            //foog from 3to17
+            2:{
+                1:{1:1115,2:1310,3:2200,4:1310,5:1115,6:1115},
+                2:{1:1500,2:1750,3:2500,4:1750,5:1500,6:1500}
+            },
+            //foog 18,19
+            3:{
+                1:{1:1040,2:1220,3:2075,4:1220,5:1040,6:1040},
+                2:{1:1425,2:1660,3:2375,4:1660,5:1425,6:1425}
+            }
+        };
+        //[booking]=>reutn meal price for bookingtype
+        const mealprice = {
+            1:200,
+            2:250
+        };
+        //[booking]=>return child meal price per bookingtype
+        const childprice = {
+            1:125,
+            2:165
+        }
+        const caclulate = function(foog,booking, meal, childmeal, transport,type){
+                const totalchild = (childmeal*childprice[booking])*7;
+                const totalmeal = (meal*mealprice[booking])*7;
+                const totaltransport = transport*380;
+                const totaltype = shaleh[foog][booking][type];
+                const total = totalchild+totalmeal+totaltransport+totaltype;
+                return total;
+        }
+        //calculation
+        calc.addEventListener("click",()=>{
+            result.innerHTML = "";
+            const childmeal = document.querySelector("#childmeal").value;
+            const foog = document.querySelector("#foog").value;
+            const booking = document.querySelector("#book").value;
+            const meal = document.querySelector("#meal").value;
+            const transport = document.querySelector("#transport").value;
+            const type = document.querySelector("#type").value;
+            if(booking==="" || meal==="" || transport==="" || type===""){
+                alert("من فضلك املأ جميع الخانات");
+            }else{
+                const output = caclulate(foog,booking,meal,childmeal,transport,type);
+                result.innerHTML = `التكلفة: ${output} جنيه`;
+                
+            }
+
+        });
+    </script>
+</body>
+</html>
